@@ -1,0 +1,121 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!--author:starttemplate-->
+<!--reference site : starttemplate.com-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./static/w3.css">
+    <link rel="stylesheet" href="./static/css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords"
+          content="unique login form,leamug login form,boostrap login form,responsive login form,free css html login form,download login form">
+    <title>Inicio</title>
+    <link href="static/css2.css" rel="stylesheet" id="style">
+    <!-- Bootstrap core Library -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-5 col-md-4 text-center">
+            <h1 class='text-white'>LOGIN</h1>
+              
+              <div class="form-login"></br>
+            
+                </br>
+                <label>USUARIO</label>
+                <input id="usuario" type="text" class="form-control" placeholder="User Name">
+                </br></br>
+                <label>PASWORD</label>
+                <input id="pasword" type="password" class="form-control" placeholder="Password">
+                </br></br>
+                <div class="wrapper">
+                    <span class="group-btn">
+                        <button onclick="IniciarSesion()"type="button" class="btn btn-danger btn-md"> SIGIENTE <i class="fa fa-sign-in"></i></button>
+                    </span>
+                    <span class="group-btn">
+                        <button onclick="Registrarse()" type="button" class="btn btn-danger btn-md"> REGISTRAR </button>
+                    </span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    </br></br></br>
+    <!--footer-->
+   
+
+    
+    
+   
+</div>
+
+
+
+
+
+
+<script>
+
+    function IniciarSesion(){
+      
+    var username = document.querySelector('#usuario').value
+    var password = document.querySelector('#pasword').value
+    var objeto = {
+        'usuario': username,
+        'pasword': password
+    }
+    console.log(objeto)
+    fetch('http://127.0.0.1:3000/Login', {
+      
+    method: 'POST', 
+    
+    body: JSON.stringify(objeto), 
+    headers:{
+        'Content-Type': 'application/json'
+    }
+   
+    }).then(res => res.json())
+    .catch(err => {
+    console.error('Error:', err)
+    alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+     
+    console.log(response);
+    console.log(response.message)
+    if(response.message == "Failed"){
+        alert("No has ingresado las credencilaes correctas")
+    }else if (response.message=="Admin"){
+        alert(`Credenciales correctas, bienvenido ${username}`)
+        sessionStorage.setItem("usuario",username)
+        location.href="admin";
+
+    }else{
+        alert(`Cliente, bienvenido ${username}`)
+        sessionStorage.setItem("usuario",username)
+        //location.href="admin";
+    }
+    }) 
+    }
+        function Registrarse(){
+            sessionStorage.setItem("tipoR",'cliente')
+            location.href="Registro";
+
+        }
+</script>
+</body>
+</html>

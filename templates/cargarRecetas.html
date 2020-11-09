@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Cargar Recetas</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./static/w3.css">
+<link rel="stylesheet" href="./static/css">
+<script src="./static/script.js"></script>
+<script src="./static/html2pdf.bundle.min.js"></script>
+<!--  <link rel="stylesheet" href="./static/font-awesome.min.css">  -->
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head><body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-lef"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:36px"> </a></span>
+  <span class="w3-bar-item w3-right">Cerrar sesion </a></span>
+</div>
+
+
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <h5 class="text"><a id="nusuario" ></a> </h5>
+     
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a href="admin" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>&nbsp; Usuarios </a>
+    <a href="cargarRecetas" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>&nbsp; Cargar Recetas</a>
+    <a href="RecetasPublicadas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Recetas Publicadas</a>
+    <a href="Perfil" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; Perfil</a>
+    
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:310px;margin-top:50px;">
+
+  <body onload="MostarRecetas()" id="main">
+  
+  <h2>Recetas Cargadas</h2>
+ 
+
+   <div class="w3-onethird">
+
+    <div class="form-group  w3-striped w3-bordered ">
+    
+      
+      <input type="file" name="hola" id ="file">
+      <br>
+      <br>
+      <button style="width:10%" onclick="cargarRecetas()" type="button" class="btn btn-danger">Cargar</button>
+
+  </div>   
+</form>
+<br>
+<br>
+
+<div id="hola" class="w3-onethird w3-center">
+  <h5 >Recetas</h5>
+    <table class="w3-table w3-striped w3-bordered w3-border">
+      <thead class="w3-green">
+        <tr> 
+          <th  scope="col">Autor</th>
+        <th  scope="col">Titulo</th>
+        <th  scope="col">Resumen</th>
+        <th  scope="col">Ingredientes</th>
+        <th  scope="col">Preparacion</th >
+        <th  scope="col">Tiempo</th>
+        <th style="width:5%" scope="col">Imagen</th>
+        </tr>
+      </thead>
+       
+      <tbody id="CuerpoRecetas">
+      </tbody>
+    </table>
+    </div>
+    <br>
+    <button onclick="Pdf()" type="button" class="btn btn-success">Generar PDf </button>
+    </div>
+    
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+  <script>
+  function cargarRecetas(){
+        $('#file').parse({
+          config: {
+           delimiter: ",",
+           complete: GuardarRecetas,
+          },
+
+          before: function(file, inputElem)
+          {
+            console.log("Parsing file...", file);
+          },
+
+          error: function(err, file)
+          {
+            console.log("ERROR:", err, file);
+          },
+          complete: function()
+          {
+            console.log("Done with all files");
+          }
+        });
+      }
+      async function GuardarRecetas(results) {
+        
+        console.log(results.data)
+        var data = results.data;
+        var val = true
+        for (i = 0; i < data.length; i++) {
+       
+            var autor = data[i][0]
+            var titulo = data[i][1]
+            var resumen = data[i][2]
+            var ingredientes = data[i][3]
+            var preparacion = data[i][4]
+            var tiempo = data[i][5]
+            var imagen = data[i][6]
+            var objeto = {
+              'autor': titulo,
+              'titulo': titulo,
+              'resumen': resumen,
+              'ingredientes': ingredientes,
+              'preparacion': preparacion,
+              'tiempo': tiempo,
+              'imagen':imagen       
+              }
+            console.log(objeto)
+            //Aplicamos nuestro metodo magico con sus 3 metodos, then, catch, then
+            fetch('http://127.0.0.1:3000/Recetas1', {
+            method: 'POST',
+            body: JSON.stringify(objeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+            }).then(res => res.json())
+            .catch(error => {
+                console.error('Error:', error)
+                alert("Ocurrio un error al consumir la API, revise la consola")
+                val = false
+            })
+            .then(response =>{
+                console.log('Success:', response);
+            }) 
+            }
+            if(val = true)
+            {
+                alert("Se agregaron las canciones exitosamente")
+                
+                MostarRecetas()
+            }
+    }
+
+        function MostarRecetas(){
+          var sesionx = document.querySelector('#nusuario')
+          var iniciado = sessionStorage.usuario
+           sesionx.innerHTML = `${iniciado}` 
+            var contenido = document.querySelector('#CuerpoRecetas') 
+            contenido.innerHTML = ""
+            fetch('http://127.0.0.1:3000/Recetas')
+            .then(response => response.json())
+            .catch(error => {
+            console.log(error)
+            })
+            .then(res => {
+              //Recorriendo nuestro res e incrementando el innerHTML de nuestro elemento
+              //Identificado como contenido
+            for (var i in res) {
+                console.log(res[i])
+                contenido.innerHTML += 
+                `<tr>
+                <th>${res[i].autor}</th>
+                <th>${res[i].titulo}</th>
+                <th>${res[i].resumen}</th>
+                <th>${res[i].ingredientes}</th>
+                <th>${res[i].preparacion}</th>
+                <th>${res[i].tiempo}</th>
+                <th><img src="${res[i].imagen}" class="img-fluid" height="10%" width="100%"> </th>
+          
+                </tr>`
+               
+            }
+            })
+      }
+
+      function Pdf(){
+         const $elementoParaConvertir = document.getElementById('hola') ; // <-- Aquí puedes elegir cualquier elemento del DOM
+         html2pdf()
+         .set({
+           margin: 1,
+           filename: 'Recetas.pdf',
+           image: {
+             type: 'jpeg',
+             quality: 0.98
+            },
+            html2canvas: {
+              scale: 4, // A mayor escala, mejores gráficos, pero más peso
+              letterRendering: true,
+            },
+            jsPDF: {
+            unit: "in",
+            format: "a3",
+            orientation: 'portrait' // landscape o portrait
+        }
+    })
+    .from($elementoParaConvertir)
+    .save()
+    .catch(err => console.log(err));
+
+
+
+      }
+
+
+
+  </script>
+  <script src="assets/js/main.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!--author:starttemplate-->
+<!--reference site : starttemplate.com-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords"
+          content="unique login form,leamug login form,boostrap login form,responsive login form,free css html login form,download login form">
+    <title>Inicio</title>
+    <link href="static/css2.css" rel="stylesheet" id="style">
+    <!-- Bootstrap core Library -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-5 col-md-4 text-center">
+            <h1 class='text-white'>REGISTRARSE</h1>
+              
+              <div class="form-login"></br>
+            
+                </br>
+                <label>Nombre</label>
+                <input type="text" id="nombre" class="form-control input-sm chat-input" placeholder="NOMBRE"/>
+                </br></br>
+                <label>APELLIDO</label>
+                <input type="text" id="apellido" class="form-control input-sm chat-input" placeholder="APELLIDO"/>
+                </br></br>
+                <label>USUARIO</label>
+                <input type="text" id="usuario" class="form-control input-sm chat-input" placeholder="USUARIO"/>
+                </br></br>
+                <label>PASWORD</label>
+                <input type="password" id="pasword" class="form-control input-sm chat-input" placeholder="PASWORD"/>
+                </br></br>
+                <label>CONFIRMAR PASWORD</label>
+                <input type="password" id="pasword2" class="form-control input-sm chat-input" placeholder="CONFIRMAR PASWORD"/>
+                </br></br>
+
+                <div class="wrapper">
+                        <span class="group-btn">
+                            <button onclick="Registrar() " type="button" class="btn btn-danger btn-md"> REGISTRAR <i class="fa fa-sign-in"></i></button>
+                        </span>
+                        
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    </br></br></br>
+    <!--footer-->
+   
+</div>
+
+<script>
+
+    function Registrar(){
+    var tipo = sessionStorage.tipoR
+    var nombre = document.querySelector('#nombre').value
+    var apellido = document.querySelector('#apellido').value
+    var username = document.querySelector('#usuario').value
+    var password = document.querySelector('#pasword').value
+    var password2 = document.querySelector('#pasword2').value
+    var objeto = {
+        'nombre': nombre,
+        'apellido':apellido,
+        'usuario': username,
+        'pasword': password,
+        'pasword2': password2,
+        'cliente':tipo
+    }
+    console.log(objeto)
+    fetch('http://127.0.0.1:3000/Personas', {
+      
+    method: 'POST', 
+    
+    body: JSON.stringify(objeto), 
+    headers:{
+        'Content-Type': 'application/json'
+    }
+   
+    }).then(res => res.json())
+    .catch(err => {
+    console.error('Error:', err)
+    alert("Ocurrio un error, ver la consola")
+    })
+    .then(response =>{
+     
+    console.log(response);
+    console.log(response.message)
+    if(response.message == "Failed"){
+        alert("Usuario ya registrado")
+    }else if(response.message == "Failed2"){
+        alert("Password no coinciden")
+
+    }else{
+        alert('Usuario creado'  )
+        if(tipo=='administrador'){
+            location.href="admin";
+        }else{
+            location.href="NoRegistrado";
+        }
+        
+    }
+    }) 
+    }
+        
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Receta</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./static/w3.css">
+<link rel="stylesheet" href="./static/css">
+<!--  <link rel="stylesheet" href="./static/font-awesome.min.css">  -->
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head><body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-lef"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:36px"> </a></span>
+  <span class="w3-bar-item w3-right">Cerrar sesion </a></span>
+</div>
+
+
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <h5 class="text-light"><a id="nusuario" ></a> </h5>
+     
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a href="admin" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>&nbsp; Usuarios </a>
+    <a href="cargarRecetas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Cargar Recetas</a>
+    <a href="RecetasPublicadas" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>&nbsp; Recetas Publicadas</a>
+    <a href="Perfil" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; Perfil</a>
+    
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:310px;margin-top:50px;">
+
+  <body onload="CargarInfo()" id="main">
+
+    <h1 class="text w3-center"><a id="titulo" ></a> </h1>
+    <h5 class="text w3-center"><a id="autor" ></a> </h5>
+ 
+<br>
+
+    <table class="w3-table w3-striped w3-bordered w3-border">
+      <thead class="w3-green">
+        <tr> 
+       <th style="width:30%" scope="col"></th>
+        <th  scope="col">Resumen</th>
+        <th  scope="col">Ingredientes</th>
+        <th  scope="col">Preparacion</th>
+        <th style="width:10%"  scope="col">Tiempo</th>
+        </tr>
+      </thead>
+       
+      <tbody id="CuerpoRecetas">
+      </tbody>
+    </table>
+    <form>
+      <div class="form-group  w3-striped w3-bordered  ">
+        <button onclick="Modificar()" type="button" class="btn btn-success">Modificar</button>
+        <button onclick="Eliminar()" type="button" class="btn btn-success">Eliminar</button>
+    </div>   
+  </form>
+  <br>
+    <br>
+
+    <table class="w3-table w3-striped w3-bordered w3-border ">
+      <thead  >
+        <tr> 
+        <th style="width:5%" scope="col">Comentarios</th>
+        <th    scope="col"></th>
+        </tr>
+      </thead>
+       
+      <tbody id="Cuerpocomentarios">
+      </tbody>
+    </table>
+    <br>
+
+    </div>
+   
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+  <script>
+  idimagen=''
+
+function CargarInfo(){
+          var sesionx = document.querySelector('#nusuario')
+          var iniciado = sessionStorage.usuario
+          var contenido = document.querySelector('#CuerpoRecetas') 
+          contenido.innerHTML = ""
+          var nombre = document.querySelector('#nusuario')
+          var nombre2 = document.querySelector('#nusuario2')
+          var titulo=document.querySelector('#titulo')
+          var autor=document.querySelector('#autor')
+          var iniciado = sessionStorage.usuario
+          nombre.innerHTML = ` ${iniciado}` 
+          var receta = sessionStorage.receta
+         
+          fetch(`http://127.0.0.1:3000/Recetas/${receta}`)
+
+          .then(response => response.json())
+
+          .catch(error => {
+            console.log(error)
+          })
+          .then(res => {
+            idimagen=res.ids
+            console.log(res)
+            titulo.innerHTML+=` ${res.titulo}`
+            autor.innerHTML+=`Autor:  ${res.autor}`
+
+            contenido.innerHTML += 
+                `<tr>
+               <th><img src="${res.imagen}" class="img-fluid  " height="50%" width="100%"> </th>
+                <th>${res.resumen}</th>
+                <th>${res.ingredientes}</th>
+                <th>${res.preparacion}</th>
+                <th>${res.preparacion}</th>
+                </tr>
+          
+                </tr>`
+
+           
+          })
+          MostarComentarios();
+      }
+
+      function Modificar(){
+        location.href="modificarRecetas";
+      
+      }
+      
+      function Eliminar(){     
+      var receta = sessionStorage.receta  
+        fetch(`http://127.0.0.1:3000/Recetas/${receta}`, {
+        method: 'DELETE',
+        }).then(res => res.json())
+        .catch(error => {
+            console.error('Error:', error)
+            alert("Ocurrio un error al consumir la API, revise la consola")
+        })
+        .then(response =>{
+            console.log('Success:', response);
+            alert(response.message)
+            location.href="RecetasPublicadas"
+        }) 
+    }
+
+    function MostarComentarios(){
+   
+   var contenido = document.querySelector('#Cuerpocomentarios') 
+   contenido.innerHTML = ""
+   fetch('http://127.0.0.1:3000/Comentarios')
+   .then(response => response.json())
+   .catch(error => {
+   console.log(error)
+   })
+   .then(res => {
+     //Recorriendo nuestro res e incrementando el innerHTML de nuestro elemento
+     //Identificado como contenido
+   for (var i in res) {
+      if (idimagen==res[i].ids){
+       console.log(res[i])
+       contenido.innerHTML += 
+       `<tr>
+         <th>
+           
+           <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+         </th>
+       <th> 
+         <b style="font-family: 'Dancing Script', cursive!important" > ${res[i].usuario}</b> &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; ${res[i].fecha} 
+         <br>
+         <br> 
+         ${res[i].escrito}   
+         
+         </th>
+
+       </tr>`
+      }
+      else{
+
+      }
+   }
+   })
+}
+
+  </script>
+  <script src="assets/js/main.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Inicio</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./static/w3.css">
+<link rel="stylesheet" href="./static/css">
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head><body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large " style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-lef"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:36px"> </a></span>
+  <span class="w3-bar-item w3-right">  </a></span>
+</div>
+
+
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left " style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row  ">
+    
+    <div class="w3-col s8 w3-bar  ">
+      <h5 class="text" style="font-family: 'Dancing Script', cursive!important"><a  > Recetas Publicadas </a> </h5>
+      <span class="w3-bar-item w3-center"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:96px"> </a></span>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container ">
+
+
+
+  
+    
+    <div class="w3-panel w3-padding-32  " style="background-color: rgba(0,0,44,.1);  border-radius: 15px; box-shadow:0 1px 0 #cfcfcf ">
+      <div class="row ">
+    <div class="col-md-offset-5 col-md-4 text-center ">
+      <h4 class='text-white w3-center ' style="font-family: 'Dancing Script', cursive!important">LOGIN</h4>
+        <div class="form-login w3-center  ">
+          <br>
+      
+        <label  style="font-family: 'Dancing Script', cursive!important"  >USUARIO</label>
+        <input id="usuario" type="text" class="form-control" placeholder="User Name">
+        </br></br>
+        <label style="font-family: 'Dancing Script', cursive!important" >PASWORD</label>
+        <input id="pasword" type="password" class="form-control" placeholder="Password">
+        </br></br>
+        <div class="wrapper">
+            <span class="group-btn">
+                <button onclick="IniciarSesion()"type="button" class="btn btn-danger btn-md"> SIGIENTE <i class="fa fa-sign-in"></i></button>
+            </span>
+            <span class="group-btn">
+                <button onclick="Registrarse()" type="button" class="btn btn-danger btn-md"> REGISTRAR </button>
+                <br>
+                <br>
+            </span>
+        </div>
+                  
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+    
+  </div> 
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" id="titulo" style="margin-left:310px;margin-top:50px;">
+
+  <body onload="MostarRecetas()" id="main">
+
+  
+   <div class="w3-onethird">
+
+    <!-- ////////////////////////////////////////////// -->
+    
+
+    <form>
+      <div class="form-group">
+      <div class="w3-row-padding ">
+        <div class="w3-secondthird ">
+        <h5 class="text"><a id="titulos" ></a> </h5>
+        
+          <table class="w3-table w3-striped ">
+             
+            <tbody id="imagen">
+              
+            </tbody>
+          </table>
+          <br>
+
+         
+
+
+          </div>
+
+        </table>
+
+
+  
+        </div>
+      </div>
+
+    </div>
+      
+    </form>
+
+    <form>
+      
+
+    </div>
+    
+   
+
+
+  <script>
+    var tituloa=''
+  
+
+  function MostarRecetas(){
+    
+            var contenido = document.querySelector('#imagen') 
+            contenido.innerHTML = ""
+            fetch('http://127.0.0.1:3000/Recetas')
+            .then(response => response.json())
+            .catch(error => {
+            console.log(error)
+            })
+            .then(res => {
+
+            for (var i in res) {
+                console.log(res[i])
+                tituloa=res[i].titulo
+                contenido.innerHTML += 
+                
+                `<tr>
+                <div class="w3-row-padding">
+                <div class="w3-one w3-container w3-margin-bottom"   onclick="verUsuario(this,'${res[i].titulo}')" >
+                <img src="${res[i].imagen}" alt="Norway" style="width:100%" class="w3-hover-opacity" >
+                <div class="w3-container w3-white">
+                <p><b>Receta: ${res[i].titulo}</b></p>
+                <p>${res[i].resumen}</p>
+                </div>
+                </div>
+                </tr>`
+
+               
+             
+
+               
+            }
+            })
+      }
+      
+      function IniciarSesion(){
+      
+      var username = document.querySelector('#usuario').value
+      var password = document.querySelector('#pasword').value
+      var objeto = {
+          'usuario': username,
+          'pasword': password
+      }
+      console.log(objeto)
+      fetch('http://127.0.0.1:3000/Login', {
+        
+      method: 'POST', 
+      
+      body: JSON.stringify(objeto), 
+      headers:{
+          'Content-Type': 'application/json'
+      }
+     
+      }).then(res => res.json())
+      .catch(err => {
+      console.error('Error:', err)
+      alert("Ocurrio un error, ver la consola")
+      })
+      .then(response =>{
+       
+      console.log(response);
+      console.log(response.message)
+      if(response.message == "Failed"){
+          alert("No has ingresado las credencilaes correctas")
+      }else if (response.message=="Admin"){
+          alert(`Credenciales correctas, bienvenido ${username}`)
+          sessionStorage.setItem("usuario",username)
+          location.href="admin";
+  
+      }else{
+          alert(`Bienvenido ${username}`)
+          sessionStorage.setItem("usuario",username)
+          location.href="Cliente";
+      }
+      }) 
+      }
+          function Registrarse(){
+              sessionStorage.setItem("tipoR",'cliente')
+              location.href="Registro";
+  
+          }
+          function verUsuario(boton,otro){
+          var usuario = boton.value
+          sessionStorage.setItem("receta", otro)
+          location.href="SeleccionNoCliente"
+      }
+
+  </script>
+
+
+
+
+</body>
+</html>

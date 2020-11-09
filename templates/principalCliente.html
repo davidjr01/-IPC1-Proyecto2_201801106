@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Recetas</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./static/w3.css">
+<link rel="stylesheet" href="./static/css">
+
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head><body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-lef"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:36px"> </a></span>
+  <span class="w3-bar-item w3-right">Cerrar sesion </a></span>
+</div>
+
+
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <h5 class="text"><a id="nusuario" ></a> </h5>
+     
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a href="Clientes" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>&nbsp; Recetas Publicadas</a>
+    <a href="cargarRecetas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Agregar Receta</a>
+    <a href="Perfil" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; Perfil</a>
+    
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" id="titulo" style="margin-left:310px;margin-top:50px;">
+
+  <body onload="MostarRecetas()" id="main">
+
+  
+   <div class="w3-onethird">
+
+    <!-- ////////////////////////////////////////////// -->
+    
+
+    <form>
+      <div class="form-group">
+      <div class="w3-row-padding ">
+        <div class="w3-secondthird ">
+        <h5 class="text"><a id="titulos" ></a> </h5>
+        
+          <table class="w3-table w3-striped ">
+             
+            <tbody id="imagen">
+              
+            </tbody>
+          </table>
+          <br>
+
+         
+
+
+          </div>
+
+        </table>
+
+
+  
+        </div>
+      </div>
+
+    </div>
+      
+    </form>
+
+    <form>
+      
+
+    </div>
+    
+   
+
+
+  <script>
+    var tituloa=''
+  
+
+  function MostarRecetas(){
+          var sesionx = document.querySelector('#nusuario')
+          var iniciado = sessionStorage.usuario
+          sesionx.innerHTML = `${iniciado}` 
+            var contenido = document.querySelector('#imagen') 
+            contenido.innerHTML = ""
+            fetch('http://127.0.0.1:3000/Recetas')
+            .then(response => response.json())
+            .catch(error => {
+            console.log(error)
+            })
+            .then(res => {
+
+            for (var i in res) {
+                console.log(res[i])
+                tituloa=res[i].titulo
+                contenido.innerHTML += 
+                
+                `<tr>
+                <div class="w3-row-padding">
+                <div class="w3-one w3-container w3-margin-bottom"   onclick="verUsuario(this,'${res[i].titulo}')" >
+                <img src="${res[i].imagen}" alt="Norway" style="width:100%" class="w3-hover-opacity" >
+                <div class="w3-container w3-white">
+                <p><b>Receta: ${res[i].titulo}</b></p>
+                <p>${res[i].resumen}</p>
+                </div>
+                </div>
+                </tr>`
+
+               
+             
+
+               
+            }
+            })
+      }
+      
+      function verUsuario(boton,otro){
+          var usuario = boton.value
+          sessionStorage.setItem("receta", otro)
+          location.href="SeleccionCliente"
+      }
+
+  </script>
+
+
+
+
+</body>
+</html>

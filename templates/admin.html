@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Inicio</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./static/w3.css">
+<link rel="stylesheet" href="./static/css">
+  <script src="./static/html2pdf.bundle.min.js"></script>
+  <script src="./static/script.js"></script>
+<!--  <link rel="stylesheet" href="./static/font-awesome.min.css">  -->
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<script src="html2pdf.bundle.min.js"></script>
+<script src="script.js"></script>
+</head><body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large  style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-lef"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:36px"> </a></span>
+  <span class="w3-bar-item w3-right">Cerrar sesion </a></span>
+</div>
+
+
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <h5 class="text"><a id="nusuario" ></a> </h5>
+     
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a href="admin" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>&nbsp; Usuarios</a>
+    <a href="cargarRecetas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>&nbsp; Cargar Recetas </a>
+    <a href="RecetasPublicadas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Recetas Publicadas</a>
+    <a href="Perfil" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; Perfil</a>
+    
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:310px;margin-top:50px;">
+
+  <body onload="CargarInfo()" id="main">
+  <br>
+  <div  class="w3-onethird">
+   <div id="hola" class="w3-onethird">
+    <h2 >Usuarios Registrados en el sistema</h2>
+    <table class="w3-table w3-striped w3-bordered w3-border">
+      <thead class="w3-green">
+        <tr>
+        <th  style="width:5%" scope="col"></th>
+        <th  scope="col">Nombre</th>
+        <th  scope="col">Apellido</th>
+        <th  scope="col">Usuario</th>
+        <th style="width:10%"  scope="col">Rol</th>
+        </tr>
+      </thead>
+       
+      <tbody id="CuerpoUsuarios">
+      </tbody>
+    </table>
+    <br>
+    </div>
+    <form>
+    <div class="form-group  w3-striped w3-bordered ">
+    
+      <button onclick="Crear()" type="button" class="btn btn-success">Crear Administrador</button>
+      <button onclick="Pdf()" type="button" class="btn btn-success">Generar PDf </button>
+
+  </div>   
+</form>
+    </div>
+    
+   
+
+
+  <script>
+ function CargarInfo(){
+         
+          var nombre = document.querySelector('#nusuario')
+          var nombre2 = document.querySelector('#nusuario2')
+          var iniciado = sessionStorage.usuario
+          nombre.innerHTML = `${iniciado}` 
+          var tabla = document.querySelector('#CuerpoUsuarios')
+         
+          fetch('http://127.0.0.1:3000/Personas')
+
+          .then(response => response.json())
+
+          .catch(error => {
+            console.log(error)
+          })
+          .then(res => {
+
+            for (var i in res) {
+             
+                tabla.innerHTML += 
+                `<tr>
+                <th> <div class="w3-col s4">
+                       <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+                                </div> </th>
+                <th>  ${res[i].nombre} </th>
+                <th>  ${res[i].apellido} </th>
+                <th>  ${res[i].usuario} </th>
+                <th>  ${res[i].tipo} </th>
+
+                </tr>`
+                
+            }
+
+          })
+          
+      }
+     
+
+      function Crear(){
+            sessionStorage.setItem("tipoR",'administrador')
+           location.href="Registro";
+
+      }
+
+     function Pdf(){
+         const $elementoParaConvertir = document.getElementById('hola') ; // <-- Aquí puedes elegir cualquier elemento del DOM
+         html2pdf()
+         .set({
+           margin: 1,
+           filename: 'Usuarios.pdf',
+           image: {
+             type: 'jpeg',
+             quality: 0.98
+            },
+            html2canvas: {
+              scale: 4, // A mayor escala, mejores gráficos, pero más peso
+              letterRendering: true,
+            },
+            jsPDF: {
+            unit: "in",
+            format: "a3",
+            orientation: 'portrait' // landscape o portrait
+        }
+    })
+    .from($elementoParaConvertir)
+    .save()
+    .catch(err => console.log(err));
+
+
+
+      }
+
+     
+
+
+  </script>
+
+
+
+
+</body>
+</html>

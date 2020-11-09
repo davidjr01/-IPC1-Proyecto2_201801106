@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Modificar</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./static/w3.css">
+<link rel="stylesheet" href="./static/css">
+<!--  <link rel="stylesheet" href="./static/font-awesome.min.css">  -->
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head><body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-lef"> <img src="./static/logo.png" class="w3-circle w3-margin-right" style="width:36px"> </a></span>
+  <span class="w3-bar-item w3-right">Cerrar sesion </a></span>
+</div>
+
+
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="./static/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <h5 class="text-light"><a id="nusuario"></a> </h5>
+     
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a href="admin" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; Usuarios</a>
+    <a href="cargarRecetas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>&nbsp; Cargar Recetas </a>
+    <a href="RecetasPublicadas" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Recetas Publicadas</a>
+    <a href="Perfil" class="w3-bar-item w3-button w3-padding "><i class="fa fa-users fa-fw"></i>&nbsp; Perfil</a>
+    
+    
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:310px;margin-top:50px;">
+
+  <body onload="CargarInfo()" id="main">
+
+   <div class="w3-onethird w3-center">
+
+    <!-- ////////////////////////////////////////////// -->
+
+    <form>
+      <div class="form-group ">
+      <div class="w3-row-padding ">
+        <div class=" w3-center">
+         
+          <table class="w3-table w3-striped ">
+            <thead class=" we-one">
+              <tr> 
+              <th  style="width:45%" scope="col"> </th>
+              </tr>
+            </thead>
+             
+            <tbody id="tablaImagen">
+            </tbody>
+          </table>
+          
+          <h2 class="text-light"><a id="nusuario2"></a> </h2>
+         
+          <label> Autor </label>
+          <input type="text" id="autor" class="w3-input w3-border" placeholder="autor"/>
+          <br>
+          <label>Titulo</label>
+          <input type="text" id="titulo" class="w3-input w3-border" placeholder="titulo"/>
+          <br>
+          <label>Resumen</label>
+          <input type="text" id="resumen" class="w3-input w3-border" placeholder="resumen"/>
+          <br>
+          <label>Ingredientes</label>
+          <input type="text" id="ingredientes" class="w3-input w3-border" placeholder="ingredientes"/>
+          <br>
+          <label>Preparacion</label>
+          <input type="text" id="preparacion" class="w3-input w3-border" placeholder="preparacion"/>
+          <br>
+          <label>Tiempo</label>
+          <input type="text" id="tiempo" class="w3-input w3-border" placeholder="tiempo"/>
+          <br>
+          <label>Imagen</label>
+          <input type="text" id="imagen" class="w3-input w3-border" placeholder="imagen"/>
+          <br>
+  
+        </div>
+        <div class="form-group  w3-striped w3-bordered w3-left ">
+          <button onclick="Modificar()" type="button" class="btn btn-success "> Modificar</button>
+          <br>
+          <br>
+      </div>   
+      </div>
+
+    </div>
+      
+    </form>
+
+<!-- Agregamos nuestros metodos onclick por cada boton que queremos -->      
+  
+</form>
+
+
+    <!-- ////////////////////////////////////////////// -->
+
+    </div>
+    
+   
+
+
+  <script>
+   var receta1=''
+ function CargarInfo(){
+          var contenido = document.querySelector('#tablaImagen')
+          contenido.innerHTML = ""
+          var receta = sessionStorage.receta
+          receta1=receta;
+          var nombre = document.querySelector('#nusuario')
+          var nombre2 = document.querySelector('#nusuario2')
+          var iniciado = sessionStorage.usuario
+          nombre.innerHTML = ` ${iniciado}`  
+          nombre2.innerHTML=` ${receta}` 
+         
+          fetch(`http://127.0.0.1:3000/Recetas/${receta}`)
+
+          .then(response => response.json())
+
+          .catch(error => {
+            console.log(error)
+          })
+          .then(res => {
+
+            console.log(res)
+            document.querySelector('#autor').value = res.autor
+            document.querySelector('#titulo').value = res.titulo
+            document.querySelector('#resumen').value = res.resumen
+            document.querySelector('#ingredientes').value = res.ingredientes
+            document.querySelector('#preparacion').value = res.preparacion
+            document.querySelector('#tiempo').value = res.tiempo
+            document.querySelector('#imagen').value = res.imagen
+
+            contenido.innerHTML += 
+                `<tr>
+               <th> 
+                <th><img src="${res.imagen}" class="img-fluid w3-circle w3-margin-center " height="20%" width="20%"> </th>
+          
+                </tr>`
+
+          })
+      }
+      function Modificar(){
+
+        var autor = document.querySelector('#autor').value
+        var titulo = document.querySelector('#titulo').value
+        var resumen = document.querySelector('#resumen').value
+        var ingredientes = document.querySelector('#ingredientes').value
+        var preparacion= document.querySelector('#preparacion').value
+        var tiempo= document.querySelector('#tiempo').value
+        var imagen= document.querySelector('#imagen').value
+
+        //Creamos un objeto como si fuera llave-valor
+        var objeto = {
+            'autor': autor,
+            'titulo':titulo,
+            'resumen':resumen,
+            'ingredientes':ingredientes,
+            'preparacion':preparacion,
+            'tiempo':tiempo,
+            'imagen':imagen
+           
+
+        }
+        console.log(objeto)
+        
+        fetch(`http://127.0.0.1:3000/Recetas/${receta1}`, {
+        method: 'PUT',
+        body: JSON.stringify(objeto), 
+        headers:{
+            'Content-Type': 'application/json'
+        } 
+        }).then(res => res.json())
+        .catch(error => {
+            console.error('Error:', error)
+            alert("Ocurrio un error al consumir la API, revise la consola")
+        })
+        .then(response =>{
+          
+            console.log('Success:', response);
+            alert(response.message)
+            location.href="RecetasPublicadas"
+
+          
+
+            
+        }) 
+    }
+
+   
+
+
+  </script>
+
+
+
+
+</body>
+</html>
