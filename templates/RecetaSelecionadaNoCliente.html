@@ -110,7 +110,7 @@ function CargarInfo(){
           var iniciado = sessionStorage.usuario
           var receta = sessionStorage.receta
          
-          fetch(`http://127.0.0.1:3000/Recetas/${receta}`)
+          fetch(`/Recetas/${receta}`)
 
           .then(response => response.json())
 
