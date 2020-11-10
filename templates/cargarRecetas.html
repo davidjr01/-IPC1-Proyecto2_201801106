@@ -147,7 +147,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
               }
             console.log(objeto)
             //Aplicamos nuestro metodo magico con sus 3 metodos, then, catch, then
-            fetch('http://127.0.0.1:3000/Recetas1', {
+            fetch('/Recetas1', {
             method: 'POST',
             body: JSON.stringify(objeto),
             headers:{
@@ -177,7 +177,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
            sesionx.innerHTML = `${iniciado}` 
             var contenido = document.querySelector('#CuerpoRecetas') 
             contenido.innerHTML = ""
-            fetch('http://127.0.0.1:3000/Recetas')
+            fetch('/Recetas')
             .then(response => response.json())
             .catch(error => {
             console.log(error)

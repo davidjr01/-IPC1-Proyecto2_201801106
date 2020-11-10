@@ -134,7 +134,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           nombre.innerHTML = ` ${iniciado}`  
           nombre2.innerHTML=` ${receta}` 
          
-          fetch(`http://127.0.0.1:3000/Recetas/${receta}`)
+          fetch(`/Recetas/${receta}`)
 
           .then(response => response.json())
 
@@ -185,7 +185,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         }
         console.log(objeto)
         
-        fetch(`http://127.0.0.1:3000/Recetas/${receta1}`, {
+        fetch(`/Recetas/${receta1}`, {
         method: 'PUT',
         body: JSON.stringify(objeto), 
         headers:{

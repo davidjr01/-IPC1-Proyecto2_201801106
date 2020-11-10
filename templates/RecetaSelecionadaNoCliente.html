@@ -145,7 +145,7 @@ function CargarInfo(){
    
             var contenido = document.querySelector('#Cuerpocomentarios') 
             contenido.innerHTML = ""
-            fetch('http://127.0.0.1:3000/Comentarios')
+            fetch('/Comentarios')
             .then(response => response.json())
             .catch(error => {
             console.log(error)
