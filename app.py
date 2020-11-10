@@ -299,7 +299,7 @@ def ActualizarPersona(nombre):
                     arreglo[i].setApellido(request.json['apellido'])
                     arreglo[i].setUsuario(request.json['usuario'])
                     arreglo[i].setPasword(request.json['pasword'])
-                    arreglo[i].setTipo(arreglo[i].getTipo)
+                    arreglo[i].setTipo(request.json['tipo'])
                     break
 
         

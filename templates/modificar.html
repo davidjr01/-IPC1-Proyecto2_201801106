@@ -147,7 +147,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             'usuario':usuario,
             'pasword':pasword,
             'tipo':tipo,
-             'estado':estado
+            'estado':estado
         }
         console.log(objeto)
         
@@ -170,10 +170,13 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             console.log('Success:', response);
             alert(response.message)
             if(tipo=="administrador"){
+              sessionStorage.usuario=usuario
               location.href="admin"
+              
            }else{
+            sessionStorage.usuario=usuario
             location.href="Cliente"
-
+            
      }
            // location.href="admin"
 
@@ -181,6 +184,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
             
         }) 
+        
     }
 
 
