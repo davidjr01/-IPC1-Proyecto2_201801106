@@ -76,7 +76,7 @@ def rutaNoregistrado():
 @app.route('/Agregar', methods=['GET'] )
 def rutaAgregar():
 
-    return render_template('modificarReceta.html')
+    return render_template('agregarReceta.html')
 
 
 @app.route('/Login', methods=['POST'] )
@@ -157,7 +157,6 @@ def agregarUsuarios():
 def agregarRecetas():
      global cont
      cont=cont+1
-     
      global listaRecesta
      autor=request.json['autor']
      titulo=request.json['titulo']

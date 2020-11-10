@@ -157,7 +157,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             }).then(res => res.json())
             .catch(error => {
                 console.error('Error:', error)
-                alert("Ocurrio un error al consumir la API, revise la consola")
+                alert("Ocurrio un error  ")
                 val = false
             })
             .then(response =>{
@@ -166,71 +166,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             }
             if(val = true)
             {
-                alert("Se agregaron las canciones exitosamente")
+                alert("Se agregaron las recetas exitosamente")
                 
-                MostarRecetas()
+            
             }
     }
 
-        function MostarRecetas(){
-          var sesionx = document.querySelector('#nusuario')
-          var iniciado = sessionStorage.usuario
-           sesionx.innerHTML = `${iniciado}` 
-            var contenido = document.querySelector('#CuerpoRecetas') 
-            contenido.innerHTML = ""
-            fetch('/Recetas')
-            .then(response => response.json())
-            .catch(error => {
-            console.log(error)
-            })
-            .then(res => {
-              //Recorriendo nuestro res e incrementando el innerHTML de nuestro elemento
-              //Identificado como contenido
-            for (var i in res) {
-                console.log(res[i])
-                contenido.innerHTML += 
-                `<tr>
-                <th>${res[i].autor}</th>
-                <th>${res[i].titulo}</th>
-                <th>${res[i].resumen}</th>
-                <th>${res[i].ingredientes}</th>
-                <th>${res[i].preparacion}</th>
-                <th>${res[i].tiempo}</th>
-                <th><img src="${res[i].imagen}" class="img-fluid" height="10%" width="100%"> </th>
-          
-                </tr>`
-               
-            }
-            })
-      }
-
-      function Pdf(){
-         const $elementoParaConvertir = document.getElementById('hola') ; // <-- Aquí puedes elegir cualquier elemento del DOM
-         html2pdf()
-         .set({
-           margin: 1,
-           filename: 'Recetas.pdf',
-           image: {
-             type: 'jpeg',
-             quality: 0.98
-            },
-            html2canvas: {
-              scale: 4, // A mayor escala, mejores gráficos, pero más peso
-              letterRendering: true,
-            },
-            jsPDF: {
-            unit: "in",
-            format: "a3",
-            orientation: 'portrait' // landscape o portrait
-        }
-    })
-    .from($elementoParaConvertir)
-    .save()
-    .catch(err => console.log(err));
-
-
-
-      }
+        
+      
 
 
 
