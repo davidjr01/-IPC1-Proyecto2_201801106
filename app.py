@@ -15,7 +15,7 @@ listaRecesta=[]
 listaRecesta.append(Receta(cont,'David','Pepian','El pepián es un platillo tradicional guatemalteco de origen kaqchiquel propio del departamento de Chimaltenango. Su origen es prehispánico y se servía en las ceremonias religiosas mayas','2 lb. de carne al gusto <br> <br> 1 chile guaque seco <br> <br>  2 onzas de ajonjolí ','Primero, para el Pepián Negro, colocar en una olla la carne a cocer dentro del litro del agua.<br><br>Antes de que esté en su punto, agregar las verduras para su cocimiento.<br><br>Entonces, aparte en un comal, poner a dorar los chiles, el miltomate, el tomate, la cebolla, el ajonjolí, pepitoria, los dientes de ajo, la rajita de canela y la cáscara de plátano.<br><br>Después de que todos los ingredientes se hayan dorado perfectamente, licuar con un poco del caldo donde se ha cocido la carne.','30 minutos','https://www.spanishacademyantiguena.com/assets/design/blogs/level5/pepian-guatemala-recipe-01.jpg'))
 
 listaComentrios=[]
-listaComentrios.append(Comentario('0','asdf','asdf','asdf'))
+listaComentrios.append(Comentario('0','David_ljr ','03/11/2020      20:00 ','Me gusto la receta '))
 
 
 @app.route('/', methods=['GET'] )
