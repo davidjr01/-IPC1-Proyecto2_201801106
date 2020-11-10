@@ -73,6 +73,11 @@ def rutaNoregistrado():
 
     return render_template('principalNoRegistrado.html')
 
+@app.route('/Agregar', methods=['GET'] )
+def rutaAgregar():
+
+    return render_template('modificarReceta.html')
+
 
 @app.route('/Login', methods=['POST'] )
 def Login():
