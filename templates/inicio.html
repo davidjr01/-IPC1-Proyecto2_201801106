@@ -31,24 +31,23 @@
 <div class="container">
     <div class="row">
         <div class="col-md-offset-5 col-md-4 text-center">
-            <h1 class='text-white'>LOGIN</h1>
+            <h1 class='text-white'>RECUPERAR PASSWORD</h1>
               
               <div class="form-login"></br>
             
                 </br>
                 <label>USUARIO</label>
-                <input id="usuario" type="text" class="form-control" placeholder="User Name">
+                <input id="usuariorecu" type="text" class="form-control" placeholder="User Name">
                 </br></br>
-                <label>PASWORD</label>
-                <input id="pasword" type="password" class="form-control" placeholder="Password">
+            
                 </br></br>
                 <div class="wrapper">
                     <span class="group-btn">
-                        <button onclick="IniciarSesion()"type="button" class="btn btn-danger btn-md"> SIGIENTE <i class="fa fa-sign-in"></i></button>
+                        <button onclick="Recuperar()"type="button" class="btn btn-danger btn-md"> RECUPERAR PASSWORD<i class="fa fa-sign-in"></i></button>
+                        <button onclick="Atras()"type="button" class="btn btn-danger btn-md"> Atras<i ></i></button>
                     </span>
-                    <span class="group-btn">
-                        <button onclick="Registrarse()" type="button" class="btn btn-danger btn-md"> REGISTRAR </button>
-                    </span>
+                    
+                    
                 </div>
                 
             </div>
@@ -70,52 +69,28 @@
 
 <script>
 
-    function IniciarSesion(){
-      
-    var username = document.querySelector('#usuario').value
-    var password = document.querySelector('#pasword').value
-    var objeto = {
-        'usuario': username,
-        'pasword': password
-    }
-    console.log(objeto)
-    fetch('/Login', {
-      
-    method: 'POST', 
-    
-    body: JSON.stringify(objeto), 
-    headers:{
-        'Content-Type': 'application/json'
-    }
-   
-    }).then(res => res.json())
-    .catch(err => {
-    console.error('Error:', err)
-    alert("Ocurrio un error, ver la consola")
-    })
-    .then(response =>{
-     
-    console.log(response);
-    console.log(response.message)
-    if(response.message == "Failed"){
-        alert("No has ingresado las credencilaes correctas")
-    }else if (response.message=="Admin"){
-        alert(`Credenciales correctas, bienvenido ${username}`)
-        sessionStorage.setItem("usuario",username)
-        location.href="admin";
+      function Recuperar(){
+         var nombre=document.querySelector('#usuariorecu').value
+          fetch(`/Personas/${nombre}`)
+          .then(response => response.json())
+          .catch(error => {
+            console.log(error)
+          })
+          .then(res => {
+            idimagen=res.ids
+            console.log(res)
+            alert(`Su  pasword es : ${res.pasword} `)
+            location.href="NoRegistrado";
+           
+          })
+         
+      }
 
-    }else{
-        alert(`Cliente, bienvenido ${username}`)
-        sessionStorage.setItem("usuario",username)
-        //location.href="admin";
-    }
-    }) 
-    }
-        function Registrarse(){
-            sessionStorage.setItem("tipoR",'cliente')
-            location.href="Registro";
-
-        }
+      function Atras(){
+        location.href="NoRegistrado";
+      
+      }
+        
 </script>
 </body>
 </html>

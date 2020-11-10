@@ -160,24 +160,16 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         }).then(res => res.json())
         .catch(error => {
             console.error('Error:', error)
-            alert("Ocurrio un error al consumir la API, revise la consola")
+            alert("Ocurrio un error ")
         })
         .then(response =>{
-          if (response.message == "Existe"){
-            alert("No pudes Modificar ,Usuario ya existe")
+          if (response.message == "No"){
+            alert("Usuario no encontrado")
 
           }else{
             console.log('Success:', response);
             alert(response.message)
-            if(tipo=="administrador"){
-              sessionStorage.usuario=usuario
-              location.href="admin"
-              
-           }else{
-            sessionStorage.usuario=usuario
-            location.href="Cliente"
-            
-     }
+            alert(`Su Passswrod es :  ${username}`)        
            // location.href="admin"
 
           }
